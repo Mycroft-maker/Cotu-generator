@@ -4,12 +4,12 @@ parse.add_argument("-i",help="input file",type=str,required=True)
 parse.add_argument("-l",help="left number",type=int,default=15)
 parse.add_argument("-r",help="left number",type=int,default=15)
 parse.add_argument("-d",help="deepth",type=int,default=5)
-parse.add_argument("-id1",help="deepth",type=float,default=0.8)
+parse.add_argument("-id1",help="deepth",type=float,default=0.2)
 parse.add_argument("-id2",help="deepth",type=float,default=0.5)
 args = parse.parse_args()
 deep = args.d
-two_end_of_seq = args.id1
-middle_seq = args.id2
+two_end_of_seq = 1-args.id1
+middle_seq = 1-args.id2
 label = str()
 f1 = open ("{filename}".format(filename=args.i),"r")
 head = args.i.split(".")[0]
@@ -105,8 +105,7 @@ for i in range (len(DATA)-right-1,len(DATA)):
         end = end + last
 total = start + middle + end
 total = total.replace("-","")
-rest = ">"+head +"_"+"result" + ":" + "consensus_size={depth}".format(depth=len(info))+":"+"length={length}".format(length=len(DATA))
-#print rest
-#print total
-f2 = open ("{label}_1.fasta".format(label=args.i),"a")
+rest = ">"+head +"_"+"result" + ":" + "consensus_size={depth}".format(depth=len(info))+":"+"sequence_length={length}".format(length=len(DATA))+":"+"consensus_length={length}".format(length=len(total))
+f2 = open ("{label}_1.fasta".format(label=args.i),"w")
 f2.write(rest + "\n" + total + "\n")
+f2.close()
